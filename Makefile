@@ -8,9 +8,10 @@ CC = gcc
 
 # コンパイルオプション
 CFLAGS = -O2 -Wall -Wextra -std=c17
+OMPFLAGS = -fopenmp
 
 # ソースコード
-SRCS = main.c variable.c
+SRCS = main.c variable.c grid.c
 
 # オブジェクトファイル
 OBJS = $(SRCS:.c=.o)
@@ -27,7 +28,7 @@ all: $(TARGET)
 
 # リンク
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ -lm
 
 # コンパイル
 %.o: %.c
@@ -41,6 +42,9 @@ clean:
 debug: CFLAGS += -g -O0
 debug: clean all
 
+# OpenMP
+omp: CFLAGS += $(OMPFLAGS)
+omp: clean all
 # =====================================================
 # 補足メモ:
 # make        → 通常ビルド
