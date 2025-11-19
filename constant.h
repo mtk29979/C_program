@@ -1,5 +1,5 @@
-#ifndef constant_h
-#define constant_h
+#ifndef CONSTANT_H
+#define CONSTANT_H
 
 //Constant cgs unit
 static const double c = 2.99792458e10; //Light speed

@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include "constant.h"
-#include "variable.h"
+#include "initval.h"
 #include "grid.h"
+#include "metric.h"
 
 // Timer structure
 typedef struct {
@@ -25,41 +26,21 @@ double timer_elapsed(Timer *t) {
 }
 
 int main(void){      
-    nx = 500;
-    ny = 500;
-    nz = 500;
+    initialize();
 
-    xmin = -100.0;
-    xmax = 100.0;
+    Timer t; //time measure(If you finish making code, delete it) 
+    timer_start(&t); // time measure(If you finish making code, delete it) 
 
-    ymin = -100.0;
-    ymax = 100.0;
-
-    if (nz == 1){
-        zmin = 0;
-        zmax = 0;
-    }
-    else{
-        zmin = -100.0;
-        zmax = 100.0;
-    }
-    
-    Mbh = 10; //Write solarmass unit
-    bh_a = 0.0; //Spin parameter
-    aa = bh_a*bh_a; 
-
-    RHOMIN = 1e-20;
-    PGMIN  = 1e-20;
-
-    Timer t;
-    timer_start(&t);
     grid_init();
-    double elapsed_grid = timer_elapsed(&t);
-    printf("time = %f[sec]\n", elapsed_grid);
+    Kerr_metric();
+
+    double elapsed_grid = timer_elapsed(&t); //time measure(If you finish making code, delete it) 
+    printf("time = %f[sec]\n", elapsed_grid); //time measure(If you finish making code, delete it) 
     //printf("dx=%f, dy=%f, dz=%f\n", dx, dy, dz);
 
 
     //printf("Mbh=%6.4f[g]\n", solarmass2g(Mbh));
+    Kerr_metric_free();
     grid_free();
     return 0;
 

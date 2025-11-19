@@ -11,7 +11,7 @@ CFLAGS = -O2 -Wall -Wextra -std=c17
 OMPFLAGS = -fopenmp
 
 # ソースコード
-SRCS = main.c variable.c grid.c
+SRCS = main.c initval.c grid.c metric.c
 
 # オブジェクトファイル
 OBJS = $(SRCS:.c=.o)
