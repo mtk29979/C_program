@@ -7,6 +7,7 @@
 #include "grid.h"
 #include "metric.h"
 
+////////////////////////////////
 // Timer structure
 typedef struct {
     struct timespec start;
@@ -24,15 +25,22 @@ double timer_elapsed(Timer *t) {
     return (t->end.tv_sec - t->start.tv_sec)
            + (t->end.tv_nsec - t->start.tv_nsec) * 1e-9;
 }
+//////////////////////////////////
 
 int main(void){      
-    initialize();
+    initialize(); // determine basic value like nx, xmin, and so on <initval.c>
 
     Timer t; //time measure(If you finish making code, delete it) 
     timer_start(&t); // time measure(If you finish making code, delete it) 
 
-    grid_init();
-    Kerr_metric();
+    grid_init(); // Using initialize() result, make grid <grid.c>
+                 
+    init_condition(); // Using grid_init() result, make initial condition <initval.c>
+
+    Kerr_metric(); // Make Kerr_metric(g_contravariatn, g_covariant) <metric.c>
+                   
+    check_metric_inverse(); // Debug
+
 
     double elapsed_grid = timer_elapsed(&t); //time measure(If you finish making code, delete it) 
     printf("time = %f[sec]\n", elapsed_grid); //time measure(If you finish making code, delete it) 
@@ -42,6 +50,7 @@ int main(void){
     //printf("Mbh=%6.4f[g]\n", solarmass2g(Mbh));
     Kerr_metric_free();
     grid_free();
+    free_init_condition();
     return 0;
 
 }

@@ -2,18 +2,24 @@
 #define INITVAL_H
 
 // Variable name
-extern int nx, ny, nz; //Grid number
-extern double xmin, xmax; // X range
-extern double ymin, ymax; // Y range
-extern double zmin, zmax; // Z range
+struct Initval{
+    int nx, ny, nz; //Grid number
+    double xmin, xmax; // X range
+    double ymin, ymax; // Y range
+    double zmin, zmax; // Z range
+    
+    double norm_rho, norm_energy; // normalization
+    double RHOMIN, PGMIN; // Minimum limit?
+    
+    double Mbh, bh_a; // BH mass, BH spin
+    double aa; //bh_a*bh_a
+    
+    double (*val0)[5]; // Initial condition
+};
 
-extern double rho, pg; // Gas mass density, Gas pressure
-extern double vx, vy, vz; // gas velocity
-
-extern double RHOMIN, PGMIN; // Minimum limit?
-
-extern double Mbh, bh_a; // BH mass, BH spin
-extern double aa; //bh_a*bh_a
+extern struct Initval init;
 
 void initialize(void);
+void init_condition(void);
+void free_init_condition(void);
 #endif

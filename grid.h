@@ -1,9 +1,12 @@
 #ifndef GRID_H
 #define GRID_H
 
-extern double dx, dy, dz; // Grid interval
-extern double *x, *y, *z;
+struct Grid{
+    double dx, dy, dz; // Grid interval
+    double *x, *y, *z;
+};
 
+extern struct Grid grid;
 void grid_init(void); 
 void grid_free(void);
 

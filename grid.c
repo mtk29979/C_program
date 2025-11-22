@@ -3,38 +3,39 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <omp.h>
-double dx, dy, dz; //Grid interval
-double *x, *y, *z; //Grid
 
-
+struct Grid grid;
 
 void grid_init(void){
-	dx = (xmax-xmin) / nx;
-	dy = (ymax-ymin) / ny;
-	dz = (zmax-zmin) / nz;
+	grid.dx = (init.xmax-init.xmin) / init.nx;
+	grid.dy = (init.ymax-init.ymin) / init.ny;
+	grid.dz = (init.zmax-init.zmin) / init.nz;
 
 	// x,y,z allocate
-	x = malloc(nx * sizeof(double));
-	y = malloc(ny * sizeof(double));
-    z = malloc(nz * sizeof(double));
+	grid.x = malloc(init.nx * sizeof(double));
+	grid.y = malloc(init.ny * sizeof(double));
+    grid.z = malloc(init.nz * sizeof(double));
 
 	// Enter
 #pragma omp parallel for
-	for(int i=0; i<nx; i++){
-        x[i] = xmin + (i+0.5)*dx;
+	for(int i=0; i<init.nx; i++){
+        grid.x[i] = init.xmin + (i+0.5)*grid.dx;
 	}
 #pragma omp parallel for
-    for(int j=0; j<ny; j++){
-        y[j] = ymin + (j+0.5)*dy;
+    for(int j=0; j<init.ny; j++){
+        grid.y[j] = init.ymin + (j+0.5)*grid.dy;
     }
 #pragma omp parallel for
-    for(int k=0; k<nz; k++){
-        z[k] = zmin + (k+0.5)*dz;
+    for(int k=0; k<init.nz; k++){
+        grid.z[k] = init.zmin + (k+0.5)*grid.dz;
         }
 }
 
 void grid_free(void){
-    free(x);
-    free(y);
-    free(z);
+    free(grid.x);
+    free(grid.y);
+    free(grid.z);
+    grid.x = NULL;
+    grid.y = NULL;
+    grid.z = NULL;
 }
